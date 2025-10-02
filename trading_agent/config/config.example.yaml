@@ -1,0 +1,85 @@
+# Trading Agent Configuration Template
+# Copy this file to config.yaml and fill in your API keys
+
+# Trading Mode
+mode: PAPER_TRADING  # Options: PAPER_TRADING, LIVE_TRADING
+
+# Alpaca Configuration
+alpaca:
+  api_key: "YOUR_ALPACA_API_KEY"
+  api_secret: "YOUR_ALPACA_SECRET_KEY"
+  base_url: "https://paper-api.alpaca.markets"  # Paper trading URL
+  # For live trading, use: "https://api.alpaca.markets"
+
+# Slack Configuration
+slack:
+  bot_token: "xoxb-YOUR-BOT-TOKEN"
+  app_token: "xapp-YOUR-APP-TOKEN"
+  signing_secret: "YOUR_SIGNING_SECRET"
+  channel_id: "YOUR_CHANNEL_ID"  # Channel for alerts and reports
+  timezone: "Asia/Seoul"  # Your timezone
+  daily_report_time: "09:00"  # Time for daily report (HH:MM in your timezone)
+
+# Database Configuration
+database:
+  type: "sqlite"  # Options: sqlite, postgresql
+  path: "data/trading_agent.db"  # For SQLite
+  # For PostgreSQL:
+  # host: "localhost"
+  # port: 5432
+  # database: "trading_agent"
+  # username: "your_username"
+  # password: "your_password"
+
+# Trading Limits (Safety)
+limits:
+  max_trades_per_day: 100
+  max_position_size_pct: 10.0  # Max % of portfolio in single position
+  daily_loss_limit_pct: 2.0  # Stop trading if daily loss exceeds this %
+  max_portfolio_exposure_pct: 80.0  # Max % of portfolio invested
+
+# Trading Behavior
+trading:
+  check_interval_seconds: 300  # How often to check markets (default: 5 minutes)
+
+# Initial Strategy Parameters (Agent will evolve these)
+strategy:
+  initial_confidence_threshold: 0.95  # Start very conservative
+  learning_rate: "moderate"  # Options: conservative, moderate, aggressive
+  optimization_target: "total_value"  # Options: total_value, sharpe_ratio, win_rate
+
+# Backtesting Configuration
+backtest:
+  default_initial_capital: 100000.0
+  commission: 0.0  # Alpaca is commission-free
+  slippage_pct: 0.1  # 0.1% slippage simulation
+  data_source: "alpaca"  # Options: alpaca, yahoo
+
+# Logging
+logging:
+  level: "INFO"  # Options: DEBUG, INFO, WARNING, ERROR
+  file: "logs/trading_agent.log"
+  max_size_mb: 100
+  backup_count: 5
+
+# Claude SDK Options
+claude:
+  model: "claude-sonnet-4-5"  # Latest model
+  max_thinking_tokens: 8000
+  max_turns: 50  # Max conversation turns per session
+
+# External MCP Servers (for enhanced market data)
+mcp_servers:
+  # AlphaVantage - Free market data (25 calls/day on free tier)
+  # Get your free API key: https://www.alphavantage.co/support/#api-key
+  alphavantage:
+    enabled: false  # Set to true to enable
+    url: "https://mcp.alphavantage.co/mcp"
+    # Set your API key here or via ALPHAVANTAGE_API_KEY env var
+    api_key: "YOUR_ALPHAVANTAGE_API_KEY"
+
+  # Alternative: Financial Datasets (for fundamentals)
+  # financial_datasets:
+  #   enabled: false
+  #   url: "https://api.financialdatasets.ai/mcp"
+  #   api_key: "YOUR_FD_API_KEY"
