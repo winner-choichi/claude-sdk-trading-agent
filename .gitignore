@@ -1,0 +1,12 @@
+.DS_Store
+.venv/
+.claude/
+__pycache__/
+*.py[cod]
+*.log
+.env
+trading_agent/config/config.yaml
+trading_agent/data/
+trading_agent/logs/
+trading_agent/Screenshot*.png
+TRADING_AGENT_PLAN.md
